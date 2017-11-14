@@ -1,0 +1,34 @@
+//-
+   _style
+   config
+
+
+div(class=_style.header)
+
+div(class=_style.main)
+  ul(class=_style.chartList)
+    each chartObj in config.chartList
+      li(class=_style[chartObj.pos])
+        div(class=_style.listContent
+        style="width:" + chartObj.w + "; height:" + chartObj.h + ";")
+          //- custom
+          if chartObj.custom
+            if chartObj.html
+              | !{chartObj.html}
+
+          else
+            img(class=_style.fullImg,
+            width="100%",
+            height="100%",
+            src=chartObj.img,
+            alt="")
+
+
+
+div(class=_style.footer,
+style="height:" + config.footer.height + ";")
+  img(class=_style.fullImg,
+  width="100%",
+  height="100%",
+  src=config.footer.imgUrl)
+

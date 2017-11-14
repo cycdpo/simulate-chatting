@@ -1,0 +1,80 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no")
+    title Simulate Chatting Test
+    base(href="./")
+
+    style.
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #wrapper {
+        width: 320px;
+        height: 520px;
+        margin: 20px auto;
+        background-color: azure;
+      }
+
+      #start {
+        display: block;
+        text-align: center;
+        width: 100px;
+        margin: 0 auto;
+      }
+
+  body
+    #wrapper
+
+    a#start(href="javascript:;") START
+
+    each _js in htmlWebpackPlugin.files.js
+      script(src=_js)
+
+    script.
+      var simulateChat = new SimulateChat('#wrapper', {
+        chartList: [{
+          pos: 'center',
+          w: 120,
+          h: 60,
+          img: ''
+        }, {
+          pos: 'right',
+          w: 190,
+          h: 40,
+          img: ''
+        }, {
+          pos: 'right',
+          w: 240,
+          h: 70,
+          img: ''
+        }, {
+          pos: 'left',
+          w: 120,
+          h: 50,
+          img: ''
+        }, {
+          pos: 'right',
+          custom: true,
+          html:'<div>test</div>',
+          w: 210,
+          h: 60,
+          img: ''
+        }, {
+          pos: 'left',
+          w: 120,
+          h: 50,
+          img: ''
+        }]
+      });
+
+      console.log(simulateChat);
+
+
+      document.getElementById('start').addEventListener('click', function () {
+        console.log('start');
+      });
+
