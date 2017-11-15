@@ -39,11 +39,7 @@ $bgc: #ebebeb;
   display: flex;
   flex-direction: column;
   background-color: $bgc;
-}
-
-.header {
-  @extend %fullWidth;
-  background-color: antiquewhite;
+  overflow: hidden;
 }
 
 // main chartList
@@ -51,6 +47,15 @@ $bgc: #ebebeb;
   @extend %fullWidth;
   flex: 1;
   overflow: hidden;
+}
+
+.swiperWrapper {
+  @extend %full;
+}
+
+.swiperSlideActive {
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .chartList {
@@ -62,17 +67,26 @@ $bgc: #ebebeb;
   flex-direction: column;
   list-style: none;
 
-  padding: 4% 0;
-
   > li {
-    display: flex;
+    display: none;
     width: 100%;
     margin: 1.8% 0;
+
+    &:nth-of-type(1) {
+      margin-top: 3.6%;
+    }
+
+    &:nth-last-of-type(1) {
+      margin-bottom: 3.6%;
+    }
+
+    &.show {
+      display: flex;
+    }
   }
 
   .listContent {
     @extend %rel;
-    border: 1px solid black;
     margin: 0 2.5%;
   }
 

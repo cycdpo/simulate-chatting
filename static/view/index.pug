@@ -23,7 +23,16 @@ html(lang='en')
         display: block;
         text-align: center;
         width: 100px;
-        margin: 0 auto;
+        margin: 10px auto;
+      }
+
+      .full {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
       }
 
   body
@@ -31,50 +40,95 @@ html(lang='en')
 
     a#start(href="javascript:;") START
 
+    //- swiper
+    script(src="//cdn.bootcss.com/Swiper/4.0.1/js/swiper.min.js")
+
     each _js in htmlWebpackPlugin.files.js
       script(src=_js)
 
     script.
       var simulateChat = new SimulateChat('#wrapper', {
         chartList: [{
-          pos: 'center',
-          w: 120,
-          h: 60,
-          img: ''
+          pos: 'left',
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart1.jpg',
+          delay: 2000
         }, {
           pos: 'right',
-          w: 190,
-          h: 40,
-          img: ''
-        }, {
-          pos: 'right',
-          w: 240,
-          h: 70,
-          img: ''
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
         }, {
           pos: 'left',
-          w: 120,
-          h: 50,
-          img: ''
-        }, {
-          pos: 'right',
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
           custom: true,
-          html:'<div>test</div>',
-          w: 210,
-          h: 60,
-          img: ''
+          html: '<img class="full" width="100%" height="100%" src="chart1.jpg" alt="">',
+          delay: 1500,
+          pause: true
+        }, {
+          pos: 'right',
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
         }, {
           pos: 'left',
-          w: 120,
-          h: 50,
-          img: ''
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart1.jpg',
+          delay: 2000
+        }, {
+          pos: 'right',
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
+        }, {
+          pos: 'left',
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart1.jpg',
+          delay: 2000
+        }, {
+          pos: 'right',
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
+        }, {
+          pos: 'left',
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart1.jpg',
+          delay: 2000
+        }, {
+          pos: 'right',
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
+        }, {
+          pos: 'left',
+          w: 665 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart1.jpg',
+          delay: 2000
+        }, {
+          pos: 'right',
+          w: 567 / 1080 * 320,
+          h: 121 / 1080 * 320,
+          img: 'chart2.jpg',
+          delay: 2000
         }]
       });
 
       console.log(simulateChat);
 
-
       document.getElementById('start').addEventListener('click', function () {
         console.log('start');
+        simulateChat.start();
       });
 

@@ -50,7 +50,10 @@ let
 
 
 var config = {
-  entry: path.resolve('src', 'index.js'),
+  entry: [
+    'swiper',
+    path.resolve('src', 'index.js')
+  ],
 
   output: {
     path: IS_DEVELOPMENT
@@ -64,12 +67,19 @@ var config = {
     libraryExport: 'default'
   },
 
+  externals: {
+    swiper: 'Swiper'
+  },
+
   resolve: {
     modules: [
       path.resolve('src'),
       path.resolve('node_modules')
     ],
-    'extensions': ['.js']
+    alias: {
+      'swiper': path.resolve('node_modules', 'swiper', 'dist', 'js', 'swiper.js')
+    },
+    extensions: ['.js']
   },
 
   module: {
