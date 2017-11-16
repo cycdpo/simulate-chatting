@@ -36,17 +36,16 @@ $ yarn add simulate-chatting
 
 ## Use
 **Simulate chatting based on [Swiper 4+](https://github.com/nolimits4web/Swiper). Add Script of swiper in your project first**
+
 ```javascript
-import Swiper from 'swiper';
 import SimulateChat from 'simulate-chatting';
 
 # OR
-const Swiper = require('swiper'）;
 const SimulateChat = require('simulate-chatting');
 ```
 
 ```javascript
-let simulateChat = new SimulateChat(wrapper, options [, SwiperModule]);
+let simulateChat = new SimulateChat(wrapper, options);
 ```
 
 * `wrapper`: [Element|String] Context Wrapper Element. [Required]
@@ -68,7 +67,8 @@ let simulateChat = new SimulateChat(wrapper, options [, SwiperModule]);
       * `custom`: [Boolean] Whether to enable custom mode.
       * `html`: [String] Custom html structure of pattern when custom is `true`.
       * `pause`: [Boolean] Whether to pause the running of patterns after this pattern display.
-* `SwiperModule`: [Object] Can use custom swiper. Note the version to 4+.
+  * `SwiperModule`: [Object] Can use custom Swiper. Note the version to 4+. Default `null`.
+
 
 * Functions:
   * `start()`: Start to display patterns.
@@ -79,7 +79,7 @@ let simulateChat = new SimulateChat(wrapper, options [, SwiperModule]);
 <div id="wrapper"></div>
 
 <script src="swiper.min.js"></script>
-<script src="SimulateChat.min.js"></script>
+<script src="simulateChatting.min.js"></script>
 <script>
   var simulateChat = new SimulateChat('#wrapper', {
     sound: 'msg.mp3',

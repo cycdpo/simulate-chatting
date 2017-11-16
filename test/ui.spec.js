@@ -1,7 +1,7 @@
 import path from 'path';
 
 import Swiper from 'swiper';
-import SimulateChat from '../build/SimulateChat.min';
+import SimulateChat from '../build/simulateChatting.min';
 
 describe('ui spec', () => {
   const
@@ -19,7 +19,8 @@ describe('ui spec', () => {
         height: 40
       },
       chartList: [],
-    }, Swiper)
+      SwiperModule: Swiper
+    })
   ;
 
   test('default exist test', () => {

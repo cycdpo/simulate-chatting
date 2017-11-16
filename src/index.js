@@ -1,5 +1,3 @@
-import Swiper from 'swiper';
-
 // template
 import containerTemplate from './template/container.pug'
 
@@ -10,8 +8,9 @@ export default class SimulateChat {
   constructor(context, {
     footer = null,
     chartList = [],
-    sound = ''
-  }, SwiperModule = Swiper) {
+    sound = '',
+    SwiperModule = null,
+  }) {
     this.el = {};
 
     this.el.context = isString(context)
@@ -27,7 +26,7 @@ export default class SimulateChat {
       chartList: chartList,
       footer: null,
       sound: null,
-      SwiperModule: SwiperModule,
+      SwiperModule: SwiperModule || window.Swiper,
     };
 
     this.state = {
