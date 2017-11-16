@@ -48,7 +48,7 @@ export default class SimulateChat {
     }
 
     this.swiper = null;
-
+    this._soundInit();
     this._initUI();
     console.log(this.config);
   };
@@ -59,6 +59,10 @@ export default class SimulateChat {
     }
 
     this.state.isPausing = false;
+
+    // fix sound(must user action)
+    this.config.sound.play();
+    this.config.sound.pause();
 
     this._showOne();
     return this;
@@ -138,6 +142,20 @@ export default class SimulateChat {
       slideActiveClass: _style.swiperSlideActive,
     });
 
+  };
+
+  _soundInit() {
+    let
+      _soundLoad = () => {
+        if (!this.config.sound.load) {
+          this.config.sound.load();
+        }
+
+        console.log('sound load');
+        document.body.removeEventListener('touchstart', _soundLoad);
+      };
+
+    document.body.addEventListener('touchstart', _soundLoad);
   };
 
   _scrollToBottom(speed = 200) {
