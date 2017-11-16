@@ -1238,3 +1238,4 @@ module.exports = function (css) {
 /***/ })
 /******/ ])["default"];
 });
+//# sourceMappingURL=SimulateChat.js.map
