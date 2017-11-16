@@ -1,11 +1,10 @@
 {
   "name": "simulate-chatting",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "simulate chatting ui",
   "main": "build/SimulateChat.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --watch --color && gulp copy",
-    "copy": "gulp copy",
+    "start": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --watch --color",
     "build": "cross-env NODE_ENV=production webpack --progress --optimize-minimize && webpack --progress --display-modules --display-reasons --display-error-details --color",
     "deploy": "gulp deploy",
     "prepublish": "npm run build"
@@ -33,6 +32,7 @@
     "browser-sync": "^2.18.13",
     "browser-sync-webpack-plugin": "^1.2.0",
     "clean-webpack-plugin": "^0.1.17",
+    "copy-webpack-plugin": "^4.2.0",
     "cross-env": "^5.1.0",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.5",

@@ -16,10 +16,10 @@ html(lang='en')
         width: 320px;
         height: 520px;
         margin: 20px auto;
-        background-color: azure;
       }
 
-      #start {
+      #start,
+      #pause {
         display: block;
         text-align: center;
         width: 100px;
@@ -39,6 +39,7 @@ html(lang='en')
     #wrapper
 
     a#start(href="javascript:;") START
+    a#pause(href="javascript:;") PAUSE
 
     //- swiper
     script(src="//cdn.bootcss.com/Swiper/4.0.1/js/swiper.min.js")
@@ -48,6 +49,11 @@ html(lang='en')
 
     script.
       var simulateChat = new SimulateChat('#wrapper', {
+        sound: 'msg.mp3',
+        footer: {
+          height: 320 / 640 * 80,
+          img: 'footerInput.jpg'
+        },
         chartList: [{
           pos: 'left',
           w: 665 / 1080 * 320,
@@ -67,7 +73,7 @@ html(lang='en')
           custom: true,
           html: '<img class="full" width="100%" height="100%" src="chart1.jpg" alt="">',
           delay: 1500,
-          pause: true
+          pause: false
         }, {
           pos: 'right',
           w: 567 / 1080 * 320,
@@ -130,5 +136,10 @@ html(lang='en')
       document.getElementById('start').addEventListener('click', function () {
         console.log('start');
         simulateChat.start();
+      });
+
+      document.getElementById('pause').addEventListener('click', function () {
+        console.log('pause');
+        simulateChat.pause();
       });
 

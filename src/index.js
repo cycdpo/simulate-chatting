@@ -6,14 +6,12 @@ import containerTemplate from './template/container.pug'
 // style
 import _style from './style.scss';
 
-// image
-import imgFooterInput from '../static/image/footerInput.jpg';
-
 export default class SimulateChat {
   constructor(context, {
-    footer = {},
-    chartList = []
-  }) {
+    footer = null,
+    chartList = [],
+    sound = ''
+  }, SwiperModule = Swiper) {
     this.el = {};
 
     this.el.context = isString(context)
@@ -22,22 +20,33 @@ export default class SimulateChat {
 
     this.el.context.style.position = 'relative';
 
-    let
-      contextWidth = this.el.context.getBoundingClientRect().width
-    ;
-
     console.log(_chartListHandle(chartList));
 
     this.config = {
-      width: contextWidth,
-      footer: {
-        height: _setCustomValue(footer.height, parseInt(contextWidth / 640 * 80, 10) + 'px'),
-        imgUrl: footer.imgUrl || imgFooterInput
-      },
+      width: this.el.context.getBoundingClientRect().width,
       chartList: chartList,
-      next: null,
-      done: false
+      footer: null,
+      sound: null,
+      SwiperModule: SwiperModule,
     };
+
+    this.state = {
+      next: null,
+      isPausing: true,
+      done: false,
+    };
+
+    // footer Input
+    if (footer) {
+      this.config.footer = {};
+      this.config.footer.height = _formattingCustomValue(footer.height);
+      this.config.footer.img = footer.img;
+    }
+
+    // sound
+    if (sound) {
+      this.config.sound = new Audio(sound);
+    }
 
     this.swiper = null;
 
@@ -46,37 +55,50 @@ export default class SimulateChat {
   };
 
   start() {
-    if (this.config.done) {
-      return;
+    if (this.state.done) {
+      return this;
     }
 
-    if (!this.config.next) {
-      this.config.next = this.el.chartList.firstChild;
-    }
+    this.state.isPausing = false;
 
     this._showOne();
+    return this;
+  };
+
+  pause() {
+    this.state.isPausing = true;
+    return this;
   };
 
   _showOne() {
+    // stage 1
+    if (!this.state.next) {
+      this.state.next = this.el.chartList.firstChild;
+    }
+
     let
-      delay = this.config.next.dataset.dalay || 1500
-      , needPause = Boolean(this.config.next.dataset.pause)
+      delay = this.state.next.dataset.dalay || 1500
     ;
 
-    console.log(delay);
-    console.log(needPause);
-
     setTimeout(() => {
-      this.config.next.classList.add(_style.show);
+      if (this.state.isPausing) {
+        return;
+      }
+
+      // stage 2
+      let needPause = Boolean(this.state.next.dataset.pause);
+      this._soundPlay();
+      this.state.next.classList.add(_style.show);
       this.swiper.updateSlides();
       this._scrollToBottom();
 
       // set next
-      this.config.next = this.config.next.nextElementSibling;
-      console.log(this.config.next);
+      this.state.next = this.state.next.nextElementSibling;
 
-      if (!this.config.next) {
-        this.config.done = true;
+      if (!this.state.next) {
+        console.log('done!');
+        this.state.done = true;
+        this.state.isPausing = true;
       } else {
         if (!needPause) {
           this._showOne();
@@ -104,7 +126,7 @@ export default class SimulateChat {
       height: this.el.swiperContainer.getBoundingClientRect().height
     };
 
-    this.swiper = new Swiper(this.el.swiperContainer, {
+    this.swiper = new this.config.SwiperModule(this.el.swiperContainer, {
       nested: true,
       direction: 'vertical',
       slidesPerView: 'auto',
@@ -135,17 +157,19 @@ export default class SimulateChat {
       + distance
       + 'px, 0px);';
   };
+
+  _soundPlay() {
+    if (!this.config.sound) {
+      return;
+    }
+
+    this.config.sound.play();
+  };
 };
 
 // private
 let
-  _addStyles = (element, styles) => {
-    for (let name in styles) {
-      element.style[name] = styles[name];
-    }
-  }
-
-  , isString = (str) => {
+  isString = (str) => {
     return (typeof str === 'string') && str.constructor === String;
   }
 
@@ -155,14 +179,6 @@ let
     } else {
       return inputValue + 'px';
     }
-  }
-
-  , _setCustomValue = (inputValue, defaultValue) => {
-    if (!inputValue) {
-      return defaultValue;
-    }
-
-    return _formattingCustomValue(inputValue);
   }
 
   , _chartListHandle = (chartList) => {

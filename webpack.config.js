@@ -6,6 +6,7 @@ var
   , HtmlWebpackPlugin = require('html-webpack-plugin')
   , UglifyJsPlugin = require('uglifyjs-webpack-plugin')
   , CleanWebpackPlugin = require('clean-webpack-plugin')
+  , CopyWebpackPlugin = require('copy-webpack-plugin')
 ;
 
 var
@@ -175,6 +176,12 @@ if (IS_DEVELOPMENT) {
       verbose: true,
       dry: false
     }),
+
+    new CopyWebpackPlugin([{
+      from: path.resolve('static', 'demoFiles', '*'),
+      to: path.resolve('dist'),
+      flatten: true
+    }]),
 
     new BrowserSyncPlugin({
       server: {
