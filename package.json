@@ -1,6 +1,6 @@
 {
   "name": "simulate-chatting",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "simulate chatting ui",
   "main": "build/SimulateChat.js",
   "scripts": {

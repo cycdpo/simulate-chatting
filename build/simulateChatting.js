@@ -146,7 +146,7 @@ var SimulateChat = function () {
     }
 
     this.swiper = null;
-
+    this._soundInit();
     this._initUI();
     console.log(this.config);
   }
@@ -157,6 +157,10 @@ var SimulateChat = function () {
     }
 
     this.state.isPausing = false;
+
+    // fix sound(must user action)
+    this.config.sound.play();
+    this.config.sound.pause();
 
     this._showOne();
     return this;
@@ -235,6 +239,21 @@ var SimulateChat = function () {
       slideClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList,
       slideActiveClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperSlideActive
     });
+  };
+
+  SimulateChat.prototype._soundInit = function _soundInit() {
+    var _this2 = this;
+
+    var _soundLoad = function _soundLoad() {
+      if (!_this2.config.sound.load) {
+        _this2.config.sound.load();
+      }
+
+      console.log('sound load');
+      document.body.removeEventListener('touchstart', _soundLoad);
+    };
+
+    document.body.addEventListener('touchstart', _soundLoad);
   };
 
   SimulateChat.prototype._scrollToBottom = function _scrollToBottom() {
