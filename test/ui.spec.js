@@ -1,22 +1,35 @@
+import path from 'path';
+
+import Swiper from 'swiper';
 import SimulateChat from '../dist/SimulateChat';
 
 describe('ui spec', () => {
   const
-    videoWrapper = document.createElement('div')
-    , source = 'https://raw.githubusercontent.com/cycjimmy/staticFiles/storage/media/Sony_test_video_vertical_720x1280.mp4'
+    wrapper = document.createElement('div')
   ;
 
-  videoWrapper.style.width = '360px';
-  videoWrapper.style.height = '640px';
+  wrapper.style.width = '320px';
+  wrapper.style.height = '520px';
 
   let
-    videoDefault = new SimulateChat(source, {
-      context: videoWrapper,
-      control: true,
-    }).load()
+    simulateChat = new SimulateChat(wrapper, {
+      sound: path.resolve('static', 'demoFiles', 'msg.mp3'),
+      footer: {
+        img: path.resolve('static', 'demoFiles', 'footerInput.jpg'),
+        height: 40
+      },
+      chartList: [],
+    }, Swiper)
   ;
 
-  test('videoDefault.container.parentNode should be videoWrapper', () => {
-    expect(videoDefault.container.parentNode).toBe(videoWrapper);
+  test('default exist test', () => {
+    expect(simulateChat.el.context).toBeTruthy();
+    expect(simulateChat.el.container).toBeTruthy();
+    expect(simulateChat.el.swiperContainer).toBeTruthy();
+    expect(simulateChat.el.swiperWrapper).toBeTruthy();
+    expect(simulateChat.el.chartList).toBeTruthy();
+    expect(simulateChat.swiper).toBeTruthy();
+
+    expect(simulateChat.el.context).toBe(wrapper);
   });
 });
