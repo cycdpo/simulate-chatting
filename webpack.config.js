@@ -52,7 +52,6 @@ let
 
 var config = {
   entry: [
-    'swiper',
     path.resolve('src', 'index.js')
   ],
 
@@ -61,15 +60,11 @@ var config = {
       ? path.resolve('dist')
       : path.resolve('build'),
     filename: IS_PRODUCTION
-      ? 'SimulateChat.min.js'
-      : 'SimulateChat.js',
+      ? 'simulateChatting.min.js'
+      : 'simulateChatting.js',
     library: 'SimulateChat',
     libraryTarget: 'umd',
     libraryExport: 'default'
-  },
-
-  externals: {
-    swiper: 'Swiper'
   },
 
   resolve: {
@@ -77,9 +72,6 @@ var config = {
       path.resolve('src'),
       path.resolve('node_modules')
     ],
-    alias: {
-      'swiper': path.resolve('node_modules', 'swiper', 'dist', 'js', 'swiper.js')
-    },
     extensions: ['.js']
   },
 
