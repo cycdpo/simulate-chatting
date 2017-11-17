@@ -117,7 +117,7 @@ export default class SimulateChat {
     }
 
     let
-      delay = this.state.next.dataset.dalay || 1500
+      delay = this.state.next.dataset.delay || 1500
     ;
 
     setTimeout(() => {
@@ -275,14 +275,18 @@ let
   , _chartListHandle = (chartList) => {
     return chartList.map(obj => {
       if (obj.w) {
-        obj.w = _formattingCustomValue(obj.w)
+        obj.w = _formattingCustomValue(obj.w);
       }
 
       if (obj.h) {
-        obj.h = _formattingCustomValue(obj.h)
+        obj.h = _formattingCustomValue(obj.h);
       }
 
-      return obj
+      if (obj.top) {
+        obj.top = _formattingCustomValue(obj.top);
+      }
+
+      return obj;
     });
   }
 ;

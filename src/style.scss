@@ -96,18 +96,10 @@ $bgc: #ebebeb;
 
   .left {
     justify-content: flex-start;
-
-    > .listContent {
-      margin-right: 23%;
-    }
   }
 
   .right {
     justify-content: flex-end;
-
-    > .listContent {
-      margin-left: 23%;
-    }
   }
 }
 
