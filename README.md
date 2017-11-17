@@ -58,7 +58,7 @@ let simulateChat = new SimulateChat(wrapper, options);
     * A pattern looks like: `{ pos: 'left', w: 100, h: 30, img: '', delay: 2000 [, ...] }`
       * `pos`: [String] Position of the pattern. Use one of the three options:
         * `'left'`
-        * `'center'
+        * `'center'`
         * `'right'`
       * `w`: [Number|String] Width of pattern. If you want to add the unit, can use the string form. E.g: `'20vw'`.
       * `h`: [Number|String] Height of pattern. If you want to add the unit, can use the string form. E.g: `'20vw'`.
