@@ -26,6 +26,9 @@ export default class SimulateChat {
 
     this.el.context.style.position = 'relative';
 
+    // handle chartList
+    _chartListHandle(chartList);
+
     this.config = {
       width: this.el.context.getBoundingClientRect().width,
       chartList: chartList,
