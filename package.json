@@ -1,8 +1,8 @@
 {
   "name": "simulate-chatting",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "simulate chatting ui",
-  "main": "build/SimulateChat.js",
+  "main": "build/simulateChatting.js",
   "scripts": {
     "test": "jest",
     "start": "cross-env NODE_ENV=development webpack --display-modules --display-reasons --display-error-details --watch --color",
@@ -15,7 +15,8 @@
     "url": "git+https://github.com/cycdpo/simulate-chatting.git"
   },
   "keywords": [
-    "SimulateChat"
+    "SimulateChat",
+    "swiper"
   ],
   "author": "cycjimmy <cycjimmy@gmail.com> (https://github.com/cycjimmy)",
   "license": "MIT",
