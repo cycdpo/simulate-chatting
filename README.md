@@ -62,6 +62,7 @@ let simulateChat = new SimulateChat(wrapper, options);
         * `'right'`
       * `w`: [Number|String] Width of pattern. If you want to add the unit, can use the string form. E.g: `'20vw'`.
       * `h`: [Number|String] Height of pattern. If you want to add the unit, can use the string form. E.g: `'20vw'`.
+      * `top`: [Number|String] Custom set the margin from the previous. If you want to add the unit, can use the string form. E.g: `'20vw'`.
       * `img`: [String] Image source.
       * `delay`: [Number] Delay from the previous pattern display. Default `1500`.
       * `custom`: [Boolean] Whether to enable custom mode.

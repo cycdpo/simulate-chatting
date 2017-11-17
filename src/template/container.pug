@@ -3,21 +3,40 @@
    config
 
 
-- var attributes = {};
+
+
 
 div.swiper-container(class=_style.main)
   div(class=_style.swiperWrapper)
     ul(class=_style.chartList)
+
+      -
+        var attributes = {};
+        var marginTopList = "";
+        var marginToplistContent = "";
+
+
       each chartObj in config.chartList
         if chartObj.pause
           - attributes = {"data-pause": "true"};
         else
           - attributes = {};
 
-        li(class=_style[chartObj.pos]
+        if chartObj.top
+          -
+            marginTopList = " margin-top: 0;";
+            marginToplistContent = " margin-top: "+chartObj.top+";";
+        else
+          -
+            marginTopList = "";
+            marginToplistContent = "";
+
+
+        li(class=_style[chartObj.pos],
+        style=marginTopList,
         data-delay=chartObj.delay)&attributes(attributes)
           div(class=_style.listContent
-          style="width:" + chartObj.w + "; height:" + chartObj.h + ";")
+          style="width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent)
             //- custom
             if chartObj.custom
               if chartObj.html
