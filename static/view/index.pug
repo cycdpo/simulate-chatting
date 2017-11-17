@@ -19,7 +19,8 @@ html(lang='en')
       }
 
       #start,
-      #pause {
+      #pause,
+      #reset {
         display: block;
         text-align: center;
         width: 100px;
@@ -40,6 +41,7 @@ html(lang='en')
 
     a#start(href="javascript:;") START
     a#pause(href="javascript:;") PAUSE
+    a#reset(href="javascript:;") RESET
 
     //- swiper
     script(src="//cdn.bootcss.com/Swiper/4.0.1/js/swiper.min.js")
@@ -131,8 +133,6 @@ html(lang='en')
         }]
       });
 
-      console.log(simulateChat);
-
       document.getElementById('start').addEventListener('click', function () {
         console.log('start');
         simulateChat.start();
@@ -141,5 +141,10 @@ html(lang='en')
       document.getElementById('pause').addEventListener('click', function () {
         console.log('pause');
         simulateChat.pause();
+      });
+
+      document.getElementById('reset').addEventListener('click', function () {
+        console.log('reset');
+        simulateChat.reset();
       });
 

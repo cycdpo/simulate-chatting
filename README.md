@@ -71,8 +71,9 @@ let simulateChat = new SimulateChat(wrapper, options);
 
 
 * Functions:
-  * `start()`: Start to display patterns. Requires user action trigger.
+  * `start()`: Start to display patterns.
   * `pause()`: Pause the running of patterns.
+  * `reset()`: Reset patterns.
 
 ### Use in browser
 ```html
