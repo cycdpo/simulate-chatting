@@ -99,6 +99,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 var SimulateChat = function () {
+  /**
+   * @param context
+   * @param footer
+   * @param chartList
+   * @param sound
+   * @param SwiperModule
+   */
   function SimulateChat(context, _ref) {
     var _ref$footer = _ref.footer,
         footer = _ref$footer === undefined ? null : _ref$footer,
@@ -116,8 +123,6 @@ var SimulateChat = function () {
     this.el.context = isString(context) ? document.querySelector(context) : context;
 
     this.el.context.style.position = 'relative';
-
-    console.log(_chartListHandle(chartList));
 
     this.config = {
       width: this.el.context.getBoundingClientRect().width,
@@ -143,14 +148,18 @@ var SimulateChat = function () {
     // sound
     if (sound) {
       this.config.sound = new Audio(sound);
+      this._soundInit();
     }
 
     this.swiper = null;
-
     this._initUI();
-    console.log(this.config);
+    console.log(this);
   }
 
+  /**
+   * Start to display patterns.
+   * @return {SimulateChat}
+   */
   SimulateChat.prototype.start = function start() {
     if (this.state.done) {
       return this;
@@ -162,11 +171,40 @@ var SimulateChat = function () {
     return this;
   };
 
+  /**
+   * Pause the running of patterns.
+   * @return {SimulateChat}
+   */
   SimulateChat.prototype.pause = function pause() {
     this.state.isPausing = true;
     return this;
   };
 
+  /**
+   * Reset patterns.
+   * @return {SimulateChat}
+   */
+  SimulateChat.prototype.reset = function reset() {
+    // set state
+    this.state.isPausing = true;
+    this.state.done = false;
+    this.state.next = null;
+
+    // reset ui
+    this.el.chartListChds.forEach(function (el) {
+      el.classList.remove(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
+    });
+
+    this.swiper.updateSlides();
+    this._scrollToTop(0);
+
+    return this;
+  };
+
+  /**
+   * Show a pattern
+   * @private
+   */
   SimulateChat.prototype._showOne = function _showOne() {
     var _this = this;
 
@@ -204,6 +242,10 @@ var SimulateChat = function () {
     }, delay);
   };
 
+  /**
+   * Initialization UI
+   * @private
+   */
   SimulateChat.prototype._initUI = function _initUI() {
     this.el.container = document.createElement('div');
     this.el.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.container);
@@ -218,6 +260,7 @@ var SimulateChat = function () {
     this.el.swiperContainer = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.main);
     this.el.swiperWrapper = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperWrapper);
     this.el.chartList = this.el.swiperWrapper.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList);
+    this.el.chartListChds = Array.prototype.slice.call(this.el.chartList.children);
 
     this.config.swiperContainer = {
       height: this.el.swiperContainer.getBoundingClientRect().height
@@ -237,6 +280,37 @@ var SimulateChat = function () {
     });
   };
 
+  /**
+   * Initialization sound
+   * @private
+   */
+  SimulateChat.prototype._soundInit = function _soundInit() {
+    var _this2 = this;
+
+    var _soundLoad = function _soundLoad() {
+      if (!_this2.config.sound.load) {
+        _this2.config.sound.load();
+      }
+
+      console.log('sound load');
+      document.body.removeEventListener('touchstart', _soundLoad);
+    },
+        _soundUnlock = function _soundUnlock() {
+      _this2.config.sound.play();
+      _this2.config.sound.pause();
+      console.log('sound unlocked');
+      document.body.removeEventListener('touchstart', _soundUnlock);
+    };
+
+    document.body.addEventListener('touchstart', _soundLoad, false);
+    document.body.addEventListener('touchstart', _soundUnlock, false);
+  };
+
+  /**
+   * Scroll To Bottom
+   * @param speed
+   * @private
+   */
   SimulateChat.prototype._scrollToBottom = function _scrollToBottom() {
     var speed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
 
@@ -250,6 +324,21 @@ var SimulateChat = function () {
     this.el.swiperWrapper.style.cssText = 'transition-duration: ' + speed + 'ms; transform: translate3d(0px, ' + distance + 'px, 0px);';
   };
 
+  /**
+   * Scroll To Top
+   * @param speed
+   * @private
+   */
+  SimulateChat.prototype._scrollToTop = function _scrollToTop() {
+    var speed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
+
+    this.el.swiperWrapper.style.cssText = 'transition-duration: ' + speed + 'ms; transform: translate3d(0px, 0px, 0px);';
+  };
+
+  /**
+   * play sound
+   * @private
+   */
   SimulateChat.prototype._soundPlay = function _soundPlay() {
     if (!this.config.sound) {
       return;
