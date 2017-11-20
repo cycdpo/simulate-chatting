@@ -236,8 +236,12 @@ var SimulateChat = function () {
     }).then(function () {
       return new Promise(function (resolve) {
         // stage 2
-        var needPause = Boolean(_this.state.next.dataset.pause);
-        _this._soundPlay();
+        var needPause = Boolean(_this.state.next.dataset.pause),
+            needSound = !Boolean(_this.state.next.dataset.muted);
+
+        if (needSound) {
+          _this._soundPlay();
+        }
         _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
         _this.swiper.updateSlides();
         _this._scrollToBottom();
@@ -416,7 +420,8 @@ var isString = function isString(str) {
 var pug = __webpack_require__(3);
 
 function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (_style, config) {pug_html = pug_html + "\u003Cdiv" + (pug.attr("class", pug.classes(["swiper-container",_style.main], [false,true]), false, true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.swiperWrapper], [true]), false, true)) + "\u003E\u003Cul" + (pug.attr("class", pug.classes([_style.chartList], [true]), false, true)) + "\u003E";
-var attributes = {};
+var pauseAttributes = {};
+var mutedAttributes = {};
 var marginTopList = "";
 var marginToplistContent = "";
 
@@ -428,10 +433,16 @@ var marginToplistContent = "";
       for (var pug_index0 = 0, $$l = $$obj.length; pug_index0 < $$l; pug_index0++) {
         var chartObj = $$obj[pug_index0];
 if (chartObj.pause) {
-attributes = {"data-pause": "true"};
+pauseAttributes = {"data-pause": "true"};
 }
 else {
-attributes = {};
+pauseAttributes = {};
+}
+if (chartObj.muted) {
+mutedAttributes = {"data-muted": "true"};
+}
+else {
+mutedAttributes = {};
 }
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
@@ -443,7 +454,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},attributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);
@@ -460,10 +471,16 @@ pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fli\u003E";
       $$l++;
       var chartObj = $$obj[pug_index0];
 if (chartObj.pause) {
-attributes = {"data-pause": "true"};
+pauseAttributes = {"data-pause": "true"};
 }
 else {
-attributes = {};
+pauseAttributes = {};
+}
+if (chartObj.muted) {
+mutedAttributes = {"data-muted": "true"};
+}
+else {
+mutedAttributes = {};
 }
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
@@ -475,7 +492,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},attributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);

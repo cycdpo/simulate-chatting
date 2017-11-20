@@ -137,8 +137,14 @@ export default class SimulateChat {
       .then(() => {
         return new Promise(resolve => {
           // stage 2
-          let needPause = Boolean(this.state.next.dataset.pause);
-          this._soundPlay();
+          let
+            needPause = Boolean(this.state.next.dataset.pause)
+            , needSound = !Boolean(this.state.next.dataset.muted)
+          ;
+
+          if (needSound) {
+            this._soundPlay();
+          }
           this.state.next.classList.add(_style.show);
           this.swiper.updateSlides();
           this._scrollToBottom();
