@@ -139,7 +139,8 @@ var SimulateChat = function () {
       next: null,
       isPausing: true,
       done: false,
-      busy: false
+      busy: false,
+      soundUnlock: false
     };
 
     // footer Input
@@ -172,6 +173,8 @@ var SimulateChat = function () {
     if (this.state.done) {
       return this;
     }
+
+    this._soundUnlock();
 
     this.state.isPausing = false;
 
@@ -236,8 +239,12 @@ var SimulateChat = function () {
     }).then(function () {
       return new Promise(function (resolve) {
         // stage 2
-        var needPause = Boolean(_this.state.next.dataset.pause);
-        _this._soundPlay();
+        var needPause = Boolean(_this.state.next.dataset.pause),
+            needSound = !Boolean(_this.state.next.dataset.muted);
+
+        if (needSound) {
+          _this._soundPlay();
+        }
         _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
         _this.swiper.updateSlides();
         _this._scrollToBottom();
@@ -319,18 +326,12 @@ var SimulateChat = function () {
         _this2.config.sound.load();
       }
 
+      _this2._soundUnlock();
       console.log('sound load');
       document.body.removeEventListener('touchstart', _soundLoad);
-    },
-        _soundUnlock = function _soundUnlock() {
-      _this2.config.sound.play();
-      _this2.config.sound.pause();
-      console.log('sound unlocked');
-      document.body.removeEventListener('touchstart', _soundUnlock);
     };
 
     document.body.addEventListener('touchstart', _soundLoad, false);
-    document.body.addEventListener('touchstart', _soundUnlock, false);
   };
 
   /**
@@ -374,6 +375,27 @@ var SimulateChat = function () {
     this.config.sound.play();
   };
 
+  /**
+   * sound unlock
+   * @private
+   */
+  SimulateChat.prototype._soundUnlock = function _soundUnlock() {
+    var _this3 = this;
+
+    if (this.state.soundUnlock) {
+      return;
+    }
+
+    this.config.sound.play();
+    setTimeout(function () {
+      if (_isAudiodPlaying(_this3.config.sound)) {
+        _this3.state.soundUnlock = true;
+        _this3.config.sound.pause();
+        console.log('sound unlocked');
+      }
+    }, 0);
+  };
+
   return SimulateChat;
 }();
 
@@ -407,6 +429,9 @@ var isString = function isString(str) {
 
     return obj;
   });
+},
+    _isAudiodPlaying = function _isAudiodPlaying(audio) {
+  return !audio.paused;
 };
 
 /***/ }),
@@ -416,7 +441,8 @@ var isString = function isString(str) {
 var pug = __webpack_require__(3);
 
 function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (_style, config) {pug_html = pug_html + "\u003Cdiv" + (pug.attr("class", pug.classes(["swiper-container",_style.main], [false,true]), false, true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.swiperWrapper], [true]), false, true)) + "\u003E\u003Cul" + (pug.attr("class", pug.classes([_style.chartList], [true]), false, true)) + "\u003E";
-var attributes = {};
+var pauseAttributes = {};
+var mutedAttributes = {};
 var marginTopList = "";
 var marginToplistContent = "";
 
@@ -428,10 +454,16 @@ var marginToplistContent = "";
       for (var pug_index0 = 0, $$l = $$obj.length; pug_index0 < $$l; pug_index0++) {
         var chartObj = $$obj[pug_index0];
 if (chartObj.pause) {
-attributes = {"data-pause": "true"};
+pauseAttributes = {"data-pause": "true"};
 }
 else {
-attributes = {};
+pauseAttributes = {};
+}
+if (chartObj.muted) {
+mutedAttributes = {"data-muted": "true"};
+}
+else {
+mutedAttributes = {};
 }
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
@@ -443,7 +475,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},attributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);
@@ -460,10 +492,16 @@ pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fli\u003E";
       $$l++;
       var chartObj = $$obj[pug_index0];
 if (chartObj.pause) {
-attributes = {"data-pause": "true"};
+pauseAttributes = {"data-pause": "true"};
 }
 else {
-attributes = {};
+pauseAttributes = {};
+}
+if (chartObj.muted) {
+mutedAttributes = {"data-muted": "true"};
+}
+else {
+mutedAttributes = {};
 }
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
@@ -475,7 +513,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},attributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);
@@ -783,8 +821,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/_css-loader@0.28.7@css-loader/index.js??ref--2-1!../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js??ref--2-2!./style.scss", function() {
-			var newContent = require("!!../node_modules/_css-loader@0.28.7@css-loader/index.js??ref--2-1!../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js??ref--2-2!./style.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -802,7 +840,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "/**\r\n * variables\r\n */\n/**\r\n * utilities\r\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li:nth-last-of-type(1) {\n  margin-bottom: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n", ""]);
+exports.push([module.i, "/**\n * variables\n */\n/**\n * utilities\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li:nth-last-of-type(1) {\n  margin-bottom: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n", ""]);
 
 // exports
 exports.locals = {

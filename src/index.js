@@ -42,6 +42,7 @@ export default class SimulateChat {
       isPausing: true,
       done: false,
       busy: false,
+      soundUnlock: false,
     };
 
     // footer Input
@@ -74,6 +75,8 @@ export default class SimulateChat {
     if (this.state.done) {
       return this;
     }
+
+    this._soundUnlock();
 
     this.state.isPausing = false;
 
@@ -137,8 +140,14 @@ export default class SimulateChat {
       .then(() => {
         return new Promise(resolve => {
           // stage 2
-          let needPause = Boolean(this.state.next.dataset.pause);
-          this._soundPlay();
+          let
+            needPause = Boolean(this.state.next.dataset.pause)
+            , needSound = !Boolean(this.state.next.dataset.muted)
+          ;
+
+          if (needSound) {
+            this._soundPlay();
+          }
           this.state.next.classList.add(_style.show);
           this.swiper.updateSlides();
           this._scrollToBottom();
@@ -219,20 +228,12 @@ export default class SimulateChat {
           this.config.sound.load();
         }
 
+        this._soundUnlock();
         console.log('sound load');
         document.body.removeEventListener('touchstart', _soundLoad);
-      }
-
-      , _soundUnlock = () => {
-        this.config.sound.play();
-        this.config.sound.pause();
-        console.log('sound unlocked');
-        document.body.removeEventListener('touchstart', _soundUnlock);
       };
 
-
     document.body.addEventListener('touchstart', _soundLoad, false);
-    document.body.addEventListener('touchstart', _soundUnlock, false);
   };
 
   /**
@@ -279,6 +280,25 @@ export default class SimulateChat {
 
     this.config.sound.play();
   };
+
+  /**
+   * sound unlock
+   * @private
+   */
+  _soundUnlock() {
+    if (this.state.soundUnlock) {
+      return;
+    }
+
+    this.config.sound.play();
+    setTimeout(() => {
+      if (_isAudiodPlaying(this.config.sound)) {
+        this.state.soundUnlock = true;
+        this.config.sound.pause();
+        console.log('sound unlocked');
+      }
+    }, 0);
+  };
 };
 
 // private
@@ -312,4 +332,6 @@ let
       return obj;
     });
   }
+
+  , _isAudiodPlaying = audio => !audio.paused
 ;
