@@ -1,6 +1,3 @@
-// polyfill
-import './polyfill/promiseFinally';
-
 // template
 import containerTemplate from './template/container.pug'
 
@@ -130,6 +127,7 @@ export default class SimulateChat {
 
       setTimeout(() => {
         if (this.state.isPausing) {
+          this.state.busy = false;
           reject();
         } else {
           resolve();
@@ -156,16 +154,19 @@ export default class SimulateChat {
           console.log('done!');
           this.state.done = true;
           this.state.isPausing = true;
+          this.state.busy = false;
           return Promise.resolve();
         }
 
         if (!needPause) {
           return this._showOne();
         }
+        this.state.busy = false;
         return Promise.resolve();
       })
-      .finally(() => {
-        this.state.busy = true;
+      .catch((err) => {
+        console.log(err);
+        this.state.busy = false;
       });
   };
 

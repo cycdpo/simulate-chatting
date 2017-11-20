@@ -86,16 +86,11 @@ module.exports = __webpack_require__(1);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfill_promiseFinally__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__polyfill_promiseFinally___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__polyfill_promiseFinally__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__template_container_pug__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__template_container_pug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__template_container_pug__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__style_scss__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__style_scss__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template_container_pug__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template_container_pug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__template_container_pug__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_scss__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_scss__);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// polyfill
-
 
 // template
 
@@ -205,7 +200,7 @@ var SimulateChat = function () {
 
     // reset ui
     this.el.chartListChds.forEach(function (el) {
-      el.classList.remove(__WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.show);
+      el.classList.remove(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
     });
 
     this.swiper.updateSlides();
@@ -232,6 +227,7 @@ var SimulateChat = function () {
 
       setTimeout(function () {
         if (_this.state.isPausing) {
+          _this.state.busy = false;
           reject();
         } else {
           resolve();
@@ -242,7 +238,7 @@ var SimulateChat = function () {
         // stage 2
         var needPause = Boolean(_this.state.next.dataset.pause);
         _this._soundPlay();
-        _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.show);
+        _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
         _this.swiper.updateSlides();
         _this._scrollToBottom();
 
@@ -258,15 +254,18 @@ var SimulateChat = function () {
         console.log('done!');
         _this.state.done = true;
         _this.state.isPausing = true;
+        _this.state.busy = false;
         return Promise.resolve();
       }
 
       if (!needPause) {
         return _this._showOne();
       }
+      _this.state.busy = false;
       return Promise.resolve();
-    }).finally(function () {
-      _this.state.busy = true;
+    }).catch(function (err) {
+      console.log(err);
+      _this.state.busy = false;
     });
   };
 
@@ -276,18 +275,18 @@ var SimulateChat = function () {
    */
   SimulateChat.prototype._initUI = function _initUI() {
     this.el.container = document.createElement('div');
-    this.el.container.classList.add(__WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.container);
+    this.el.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.container);
 
-    this.el.container.innerHTML = __WEBPACK_IMPORTED_MODULE_1__template_container_pug___default()({
-      _style: __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a,
+    this.el.container.innerHTML = __WEBPACK_IMPORTED_MODULE_0__template_container_pug___default()({
+      _style: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a,
       config: this.config
     });
 
     this.el.context.appendChild(this.el.container);
 
-    this.el.swiperContainer = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.main);
-    this.el.swiperWrapper = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.swiperWrapper);
-    this.el.chartList = this.el.swiperWrapper.querySelector('.' + __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.chartList);
+    this.el.swiperContainer = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.main);
+    this.el.swiperWrapper = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperWrapper);
+    this.el.chartList = this.el.swiperWrapper.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList);
     this.el.chartListChds = Array.prototype.slice.call(this.el.chartList.children);
 
     this.config.swiperContainer = {
@@ -302,9 +301,9 @@ var SimulateChat = function () {
       mousewheel: true,
 
       // namespace
-      wrapperClass: __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.swiperWrapper,
-      slideClass: __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.chartList,
-      slideActiveClass: __WEBPACK_IMPORTED_MODULE_2__style_scss___default.a.swiperSlideActive
+      wrapperClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperWrapper,
+      slideClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList,
+      slideActiveClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperSlideActive
     });
   };
 
@@ -412,26 +411,9 @@ var isString = function isString(str) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
-
-Promise.prototype.finally = function (callback) {
-  var P = this.constructor;
-  return this.then(function (value) {
-    return P.resolve(callback()).then(function () {
-      return value;
-    });
-  }, function (reason) {
-    return P.resolve(callback()).then(function () {
-      throw reason;
-    });
-  });
-};
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var pug = __webpack_require__(4);
+var pug = __webpack_require__(3);
 
 function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (_style, config) {pug_html = pug_html + "\u003Cdiv" + (pug.attr("class", pug.classes(["swiper-container",_style.main], [false,true]), false, true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.swiperWrapper], [true]), false, true)) + "\u003E\u003Cul" + (pug.attr("class", pug.classes([_style.chartList], [true]), false, true)) + "\u003E";
 var attributes = {};
@@ -514,7 +496,7 @@ pug_html = pug_html + "\u003Cdiv" + (pug.attr("class", pug.classes([_style.foote
 module.exports = template;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -748,7 +730,7 @@ function pug_rethrow(err, filename, lineno, str){
     throw err;
   }
   try {
-    str = str || __webpack_require__(5).readFileSync(filename, 'utf8')
+    str = str || __webpack_require__(4).readFileSync(filename, 'utf8')
   } catch (ex) {
     pug_rethrow(err, null, lineno)
   }
@@ -775,19 +757,19 @@ function pug_rethrow(err, filename, lineno, str){
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(7);
+var content = __webpack_require__(6);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -795,7 +777,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(9)(content, options);
+var update = __webpack_require__(8)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -812,10 +794,10 @@ if(false) {
 }
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(undefined);
+exports = module.exports = __webpack_require__(7)(undefined);
 // imports
 
 
@@ -839,7 +821,7 @@ exports.locals = {
 };
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports) {
 
 /*
@@ -921,7 +903,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -977,7 +959,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(10);
+var	fixUrls = __webpack_require__(9);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -1293,7 +1275,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports) {
 
 
