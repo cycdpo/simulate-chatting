@@ -139,7 +139,8 @@ var SimulateChat = function () {
       next: null,
       isPausing: true,
       done: false,
-      busy: false
+      busy: false,
+      soundUnlock: false
     };
 
     // footer Input
@@ -172,6 +173,8 @@ var SimulateChat = function () {
     if (this.state.done) {
       return this;
     }
+
+    this._soundUnlock();
 
     this.state.isPausing = false;
 
@@ -323,18 +326,12 @@ var SimulateChat = function () {
         _this2.config.sound.load();
       }
 
+      _this2._soundUnlock();
       console.log('sound load');
       document.body.removeEventListener('touchstart', _soundLoad);
-    },
-        _soundUnlock = function _soundUnlock() {
-      _this2.config.sound.play();
-      _this2.config.sound.pause();
-      console.log('sound unlocked');
-      document.body.removeEventListener('touchstart', _soundUnlock);
     };
 
     document.body.addEventListener('touchstart', _soundLoad, false);
-    document.body.addEventListener('touchstart', _soundUnlock, false);
   };
 
   /**
@@ -378,6 +375,27 @@ var SimulateChat = function () {
     this.config.sound.play();
   };
 
+  /**
+   * sound unlock
+   * @private
+   */
+  SimulateChat.prototype._soundUnlock = function _soundUnlock() {
+    var _this3 = this;
+
+    if (this.state.soundUnlock) {
+      return;
+    }
+
+    this.config.sound.play();
+    setTimeout(function () {
+      if (_isAudiodPlaying(_this3.config.sound)) {
+        _this3.state.soundUnlock = true;
+        _this3.config.sound.pause();
+        console.log('sound unlocked');
+      }
+    }, 0);
+  };
+
   return SimulateChat;
 }();
 
@@ -411,6 +429,9 @@ var isString = function isString(str) {
 
     return obj;
   });
+},
+    _isAudiodPlaying = function _isAudiodPlaying(audio) {
+  return !audio.paused;
 };
 
 /***/ }),
@@ -800,8 +821,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!../node_modules/_css-loader@0.28.7@css-loader/index.js??ref--2-1!../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js??ref--2-2!./style.scss", function() {
-			var newContent = require("!!../node_modules/_css-loader@0.28.7@css-loader/index.js??ref--2-1!../node_modules/_sass-loader@6.0.6@sass-loader/lib/loader.js??ref--2-2!./style.scss");
+		module.hot.accept("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss", function() {
+			var newContent = require("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -819,7 +840,7 @@ exports = module.exports = __webpack_require__(7)(undefined);
 
 
 // module
-exports.push([module.i, "/**\r\n * variables\r\n */\n/**\r\n * utilities\r\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li:nth-last-of-type(1) {\n  margin-bottom: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n", ""]);
+exports.push([module.i, "/**\n * variables\n */\n/**\n * utilities\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li:nth-last-of-type(1) {\n  margin-bottom: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n", ""]);
 
 // exports
 exports.locals = {
