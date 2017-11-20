@@ -41,6 +41,7 @@ export default class SimulateChat {
       next: null,
       isPausing: true,
       done: false,
+      busy: false,
     };
 
     // footer Input
@@ -66,6 +67,10 @@ export default class SimulateChat {
    * @return {SimulateChat}
    */
   start() {
+    if (this.state.busy) {
+      return this;
+    }
+
     if (this.state.done) {
       return this;
     }
@@ -116,35 +121,53 @@ export default class SimulateChat {
       this.state.next = this.el.chartList.firstChild;
     }
 
-    let
-      delay = this.state.next.dataset.delay || 1500
-    ;
+    return new Promise((resolve, reject) => {
+      this.state.busy = true;
+      let delay = this.state.next.dataset.delay || 1500;
 
-    setTimeout(() => {
-      if (this.state.isPausing) {
-        return;
-      }
-
-      // stage 2
-      let needPause = Boolean(this.state.next.dataset.pause);
-      this._soundPlay();
-      this.state.next.classList.add(_style.show);
-      this.swiper.updateSlides();
-      this._scrollToBottom();
-
-      // set next
-      this.state.next = this.state.next.nextElementSibling;
-
-      if (!this.state.next) {
-        console.log('done!');
-        this.state.done = true;
-        this.state.isPausing = true;
-      } else {
-        if (!needPause) {
-          this._showOne();
+      setTimeout(() => {
+        if (this.state.isPausing) {
+          this.state.busy = false;
+          reject();
+        } else {
+          resolve();
         }
-      }
-    }, delay);
+      }, delay);
+    })
+      .then(() => {
+        return new Promise(resolve => {
+          // stage 2
+          let needPause = Boolean(this.state.next.dataset.pause);
+          this._soundPlay();
+          this.state.next.classList.add(_style.show);
+          this.swiper.updateSlides();
+          this._scrollToBottom();
+
+          // set next
+          this.state.next = this.state.next.nextElementSibling;
+
+          setTimeout(() => resolve(needPause), 0);
+        });
+      })
+      .then((needPause) => {
+        if (!this.state.next) {
+          console.log('done!');
+          this.state.done = true;
+          this.state.isPausing = true;
+          this.state.busy = false;
+          return Promise.resolve();
+        }
+
+        if (!needPause) {
+          return this._showOne();
+        }
+        this.state.busy = false;
+        return Promise.resolve();
+      })
+      .catch((err) => {
+        console.log(err);
+        this.state.busy = false;
+      });
   };
 
   /**

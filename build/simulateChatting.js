@@ -138,7 +138,8 @@ var SimulateChat = function () {
     this.state = {
       next: null,
       isPausing: true,
-      done: false
+      done: false,
+      busy: false
     };
 
     // footer Input
@@ -164,6 +165,10 @@ var SimulateChat = function () {
    * @return {SimulateChat}
    */
   SimulateChat.prototype.start = function start() {
+    if (this.state.busy) {
+      return this;
+    }
+
     if (this.state.done) {
       return this;
     }
@@ -216,33 +221,52 @@ var SimulateChat = function () {
       this.state.next = this.el.chartList.firstChild;
     }
 
-    var delay = this.state.next.dataset.delay || 1500;
+    return new Promise(function (resolve, reject) {
+      _this.state.busy = true;
+      var delay = _this.state.next.dataset.delay || 1500;
 
-    setTimeout(function () {
-      if (_this.state.isPausing) {
-        return;
-      }
+      setTimeout(function () {
+        if (_this.state.isPausing) {
+          _this.state.busy = false;
+          reject();
+        } else {
+          resolve();
+        }
+      }, delay);
+    }).then(function () {
+      return new Promise(function (resolve) {
+        // stage 2
+        var needPause = Boolean(_this.state.next.dataset.pause);
+        _this._soundPlay();
+        _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
+        _this.swiper.updateSlides();
+        _this._scrollToBottom();
 
-      // stage 2
-      var needPause = Boolean(_this.state.next.dataset.pause);
-      _this._soundPlay();
-      _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
-      _this.swiper.updateSlides();
-      _this._scrollToBottom();
+        // set next
+        _this.state.next = _this.state.next.nextElementSibling;
 
-      // set next
-      _this.state.next = _this.state.next.nextElementSibling;
-
+        setTimeout(function () {
+          return resolve(needPause);
+        }, 0);
+      });
+    }).then(function (needPause) {
       if (!_this.state.next) {
         console.log('done!');
         _this.state.done = true;
         _this.state.isPausing = true;
-      } else {
-        if (!needPause) {
-          _this._showOne();
-        }
+        _this.state.busy = false;
+        return Promise.resolve();
       }
-    }, delay);
+
+      if (!needPause) {
+        return _this._showOne();
+      }
+      _this.state.busy = false;
+      return Promise.resolve();
+    }).catch(function (err) {
+      console.log(err);
+      _this.state.busy = false;
+    });
   };
 
   /**
