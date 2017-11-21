@@ -76,10 +76,6 @@ $bgc: #ebebeb;
       margin-top: 3.6%;
     }
 
-    &:nth-last-of-type(1) {
-      margin-bottom: 3.6%;
-    }
-
     &.show {
       display: flex;
     }
@@ -107,4 +103,5 @@ $bgc: #ebebeb;
 .footer {
   @extend %rel;
   @extend %fullWidth;
+  margin-top: 1.8%;
 }

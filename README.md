@@ -69,6 +69,7 @@ let simulateChat = new SimulateChat(wrapper, options);
       * `html`: [String] Custom html structure of pattern when custom is `true`.
       * `pause`: [Boolean] Whether to pause the running of patterns after this pattern display.
       * `muted`: [Boolean] Whether not to play the sound when this pattern show.
+      * `callback`: [Function] if set, run callback function after this pattern show.
   * `SwiperModule`: [Object] Can use custom Swiper. Note the version to 4+. Default `null`.
 
 
