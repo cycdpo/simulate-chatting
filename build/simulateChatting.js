@@ -1,3 +1,8 @@
+/*!
+ * simulate-chatting v0.5.1
+ * Homepage: https://github.com/cycdpo/simulate-chatting#readme
+ * Released under the MIT License.
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -7,7 +12,7 @@
 		exports["SimulateChat"] = factory();
 	else
 		root["SimulateChat"] = factory();
-})(this, function() {
+})(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -46,12 +51,32 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, {
-/******/ 				configurable: false,
-/******/ 				enumerable: true,
-/******/ 				get: getter
-/******/ 			});
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
 /******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
 /******/ 	};
 /******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
@@ -69,6 +94,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
@@ -85,20 +111,24 @@ module.exports = __webpack_require__(1);
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template_container_pug__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__template_container_pug___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__template_container_pug__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_scss__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__style_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__style_scss__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SimulateChat; });
+/* harmony import */ var _template_container_pug__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _template_container_pug__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_template_container_pug__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(5);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_style_scss__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var awesome_js_funcs_judgeBasic_isString__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
+/* harmony import */ var awesome_js_funcs_media_isAudioPlaying__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
 // template
+ // style
 
 
-// style
 
 
-var SimulateChat = function () {
+
+var SimulateChat =
+/*#__PURE__*/
+function () {
   /**
    * @param context
    * @param footer
@@ -108,23 +138,17 @@ var SimulateChat = function () {
    */
   function SimulateChat(context, _ref) {
     var _ref$footer = _ref.footer,
-        footer = _ref$footer === undefined ? null : _ref$footer,
+        footer = _ref$footer === void 0 ? null : _ref$footer,
         _ref$chartList = _ref.chartList,
-        chartList = _ref$chartList === undefined ? [] : _ref$chartList,
+        chartList = _ref$chartList === void 0 ? [] : _ref$chartList,
         _ref$sound = _ref.sound,
-        sound = _ref$sound === undefined ? '' : _ref$sound,
+        sound = _ref$sound === void 0 ? '' : _ref$sound,
         _ref$SwiperModule = _ref.SwiperModule,
-        SwiperModule = _ref$SwiperModule === undefined ? null : _ref$SwiperModule;
-
-    _classCallCheck(this, SimulateChat);
-
+        SwiperModule = _ref$SwiperModule === void 0 ? null : _ref$SwiperModule;
     this.el = {};
+    this.el.context = Object(awesome_js_funcs_judgeBasic_isString__WEBPACK_IMPORTED_MODULE_2__["default"])(context) ? document.querySelector(context) : context;
+    this.el.context.style.position = 'relative'; // handle chartList
 
-    this.el.context = isString(context) ? document.querySelector(context) : context;
-
-    this.el.context.style.position = 'relative';
-
-    // handle chartList
     _chartListHandle(chartList);
 
     this.config = {
@@ -134,38 +158,42 @@ var SimulateChat = function () {
       sound: null,
       SwiperModule: SwiperModule || window.Swiper
     };
-
     this.state = {
       next: null,
       isPausing: true,
       done: false,
       busy: false,
-      soundUnlock: false
-    };
+      soundUnlock: false,
+      soundMuted: true
+    }; // footer Input
 
-    // footer Input
     if (footer) {
       this.config.footer = {};
       this.config.footer.height = _formattingCustomValue(footer.height);
       this.config.footer.img = footer.img;
-    }
+    } // sound
 
-    // sound
+
     if (sound) {
       this.config.sound = new Audio(sound);
+
       this._soundInit();
     }
 
     this.swiper = null;
+
     this._initUI();
+
     console.log(this);
   }
+
+  var _proto = SimulateChat.prototype;
 
   /**
    * Start to display patterns.
    * @return {SimulateChat}
    */
-  SimulateChat.prototype.start = function start() {
+  _proto.start = function start() {
     if (this.state.busy) {
       return this;
     }
@@ -179,6 +207,7 @@ var SimulateChat = function () {
     this.state.isPausing = false;
 
     this._showOne();
+
     return this;
   };
 
@@ -186,7 +215,7 @@ var SimulateChat = function () {
    * Pause the running of patterns.
    * @return {SimulateChat}
    */
-  SimulateChat.prototype.pause = function pause() {
+  _proto.pause = function pause() {
     this.state.isPausing = true;
     return this;
   };
@@ -195,18 +224,17 @@ var SimulateChat = function () {
    * Reset patterns.
    * @return {SimulateChat}
    */
-  SimulateChat.prototype.reset = function reset() {
+  _proto.reset = function reset() {
     // set state
     this.state.isPausing = true;
     this.state.done = false;
-    this.state.next = null;
+    this.state.next = null; // reset ui
 
-    // reset ui
     this.el.chartListChds.forEach(function (el) {
-      el.classList.remove(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
+      el.classList.remove(_style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.show);
     });
-
     this.swiper.updateSlides();
+
     this._scrollToTop(0);
 
     return this;
@@ -216,7 +244,7 @@ var SimulateChat = function () {
    * Show a pattern
    * @private
    */
-  SimulateChat.prototype._showOne = function _showOne() {
+  _proto._showOne = function _showOne() {
     var _this = this;
 
     // stage 1
@@ -227,7 +255,6 @@ var SimulateChat = function () {
     return new Promise(function (resolve, reject) {
       _this.state.busy = true;
       var delay = _this.state.next.dataset.delay || 1500;
-
       setTimeout(function () {
         if (_this.state.isPausing) {
           _this.state.busy = false;
@@ -240,18 +267,26 @@ var SimulateChat = function () {
       return new Promise(function (resolve) {
         // stage 2
         var needPause = Boolean(_this.state.next.dataset.pause),
-            needSound = !Boolean(_this.state.next.dataset.muted);
+            needSound = !Boolean(_this.state.next.dataset.muted),
+            hasCallback = Boolean(_this.state.next.dataset.callback);
 
         if (needSound) {
           _this._soundPlay();
         }
-        _this.state.next.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.show);
+
+        _this.state.next.classList.add(_style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.show);
+
         _this.swiper.updateSlides();
-        _this._scrollToBottom();
 
-        // set next
+        _this._scrollToBottom(); // run callback
+
+
+        if (hasCallback) {
+          _this.config.chartList[_this.state.next.dataset.index].callback();
+        } // set next
+
+
         _this.state.next = _this.state.next.nextElementSibling;
-
         setTimeout(function () {
           return resolve(needPause);
         }, 0);
@@ -268,6 +303,7 @@ var SimulateChat = function () {
       if (!needPause) {
         return _this._showOne();
       }
+
       _this.state.busy = false;
       return Promise.resolve();
     }).catch(function (err) {
@@ -280,37 +316,31 @@ var SimulateChat = function () {
    * Initialization UI
    * @private
    */
-  SimulateChat.prototype._initUI = function _initUI() {
+  _proto._initUI = function _initUI() {
     this.el.container = document.createElement('div');
-    this.el.container.classList.add(__WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.container);
-
-    this.el.container.innerHTML = __WEBPACK_IMPORTED_MODULE_0__template_container_pug___default()({
-      _style: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a,
+    this.el.container.classList.add(_style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.container);
+    this.el.container.innerHTML = _template_container_pug__WEBPACK_IMPORTED_MODULE_0___default()({
+      _style: _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a,
       config: this.config
     });
-
     this.el.context.appendChild(this.el.container);
-
-    this.el.swiperContainer = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.main);
-    this.el.swiperWrapper = this.el.container.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperWrapper);
-    this.el.chartList = this.el.swiperWrapper.querySelector('.' + __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList);
+    this.el.swiperContainer = this.el.container.querySelector('.' + _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.main);
+    this.el.swiperWrapper = this.el.container.querySelector('.' + _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.swiperWrapper);
+    this.el.chartList = this.el.swiperWrapper.querySelector('.' + _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.chartList);
     this.el.chartListChds = Array.prototype.slice.call(this.el.chartList.children);
-
     this.config.swiperContainer = {
       height: this.el.swiperContainer.getBoundingClientRect().height
     };
-
     this.swiper = new this.config.SwiperModule(this.el.swiperContainer, {
       nested: true,
       direction: 'vertical',
       slidesPerView: 'auto',
       freeMode: true,
       mousewheel: true,
-
       // namespace
-      wrapperClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperWrapper,
-      slideClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.chartList,
-      slideActiveClass: __WEBPACK_IMPORTED_MODULE_1__style_scss___default.a.swiperSlideActive
+      wrapperClass: _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.swiperWrapper,
+      slideClass: _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.chartList,
+      slideActiveClass: _style_scss__WEBPACK_IMPORTED_MODULE_1___default.a.swiperSlideActive
     });
   };
 
@@ -318,7 +348,7 @@ var SimulateChat = function () {
    * Initialization sound
    * @private
    */
-  SimulateChat.prototype._soundInit = function _soundInit() {
+  _proto._soundInit = function _soundInit() {
     var _this2 = this;
 
     var _soundLoad = function _soundLoad() {
@@ -327,6 +357,7 @@ var SimulateChat = function () {
       }
 
       _this2._soundUnlock();
+
       console.log('sound load');
       document.body.removeEventListener('touchstart', _soundLoad);
     };
@@ -339,8 +370,10 @@ var SimulateChat = function () {
    * @param speed
    * @private
    */
-  SimulateChat.prototype._scrollToBottom = function _scrollToBottom() {
-    var speed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
+  _proto._scrollToBottom = function _scrollToBottom(speed) {
+    if (speed === void 0) {
+      speed = 200;
+    }
 
     var chartListHeight = this.el.chartList.getBoundingClientRect().height,
         distance = this.config.swiperContainer.height - chartListHeight;
@@ -357,8 +390,10 @@ var SimulateChat = function () {
    * @param speed
    * @private
    */
-  SimulateChat.prototype._scrollToTop = function _scrollToTop() {
-    var speed = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 200;
+  _proto._scrollToTop = function _scrollToTop(speed) {
+    if (speed === void 0) {
+      speed = 200;
+    }
 
     this.el.swiperWrapper.style.cssText = 'transition-duration: ' + speed + 'ms; transform: translate3d(0px, 0px, 0px);';
   };
@@ -367,9 +402,13 @@ var SimulateChat = function () {
    * play sound
    * @private
    */
-  SimulateChat.prototype._soundPlay = function _soundPlay() {
+  _proto._soundPlay = function _soundPlay() {
     if (!this.config.sound) {
       return;
+    }
+
+    if (this.state.soundMuted) {
+      this.config.sound.muted = false;
     }
 
     this.config.sound.play();
@@ -379,18 +418,25 @@ var SimulateChat = function () {
    * sound unlock
    * @private
    */
-  SimulateChat.prototype._soundUnlock = function _soundUnlock() {
+  _proto._soundUnlock = function _soundUnlock() {
     var _this3 = this;
 
     if (this.state.soundUnlock) {
       return;
     }
 
+    this.config.sound.muted = true;
     this.config.sound.play();
     setTimeout(function () {
-      if (_isAudiodPlaying(_this3.config.sound)) {
+      if (Object(awesome_js_funcs_media_isAudioPlaying__WEBPACK_IMPORTED_MODULE_3__["default"])(_this3.config.sound)) {
         _this3.state.soundUnlock = true;
+
         _this3.config.sound.pause();
+
+        if (!_this3.state.soundMuted) {
+          _this3.config.sound.muted = false;
+        }
+
         console.log('sound unlocked');
       }
     }, 0);
@@ -399,22 +445,20 @@ var SimulateChat = function () {
   return SimulateChat;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (SimulateChat);
-;
 
-// private
-var isString = function isString(str) {
-  return typeof str === 'string' && str.constructor === String;
-},
-    _formattingCustomValue = function _formattingCustomValue(inputValue) {
-  if (isString(inputValue)) {
+; // private
+
+var _formattingCustomValue = function _formattingCustomValue(inputValue) {
+  if (Object(awesome_js_funcs_judgeBasic_isString__WEBPACK_IMPORTED_MODULE_2__["default"])(inputValue)) {
     return inputValue;
   } else {
     return inputValue + 'px';
   }
 },
     _chartListHandle = function _chartListHandle(chartList) {
-  return chartList.map(function (obj) {
+  return chartList.map(function (obj, index) {
+    obj.index = index;
+
     if (obj.w) {
       obj.w = _formattingCustomValue(obj.w);
     }
@@ -429,9 +473,6 @@ var isString = function isString(str) {
 
     return obj;
   });
-},
-    _isAudiodPlaying = function _isAudiodPlaying(audio) {
-  return !audio.paused;
 };
 
 /***/ }),
@@ -443,6 +484,8 @@ var pug = __webpack_require__(3);
 function template(locals) {var pug_html = "", pug_mixins = {}, pug_interp;;var locals_for_with = (locals || {});(function (_style, config) {pug_html = pug_html + "\u003Cdiv" + (pug.attr("class", pug.classes(["swiper-container",_style.main], [false,true]), false, true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.swiperWrapper], [true]), false, true)) + "\u003E\u003Cul" + (pug.attr("class", pug.classes([_style.chartList], [true]), false, true)) + "\u003E";
 var pauseAttributes = {};
 var mutedAttributes = {};
+var indexAttributes = {};
+var callbackAttributes = {};
 var marginTopList = "";
 var marginToplistContent = "";
 
@@ -453,6 +496,7 @@ var marginToplistContent = "";
   if ('number' == typeof $$obj.length) {
       for (var pug_index0 = 0, $$l = $$obj.length; pug_index0 < $$l; pug_index0++) {
         var chartObj = $$obj[pug_index0];
+indexAttributes = {"data-index": chartObj.index};
 if (chartObj.pause) {
 pauseAttributes = {"data-pause": "true"};
 }
@@ -465,6 +509,12 @@ mutedAttributes = {"data-muted": "true"};
 else {
 mutedAttributes = {};
 }
+if (chartObj.callback) {
+callbackAttributes = {"data-callback": "true"};
+}
+else {
+callbackAttributes = {};
+}
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
 marginToplistContent = " margin-top: "+chartObj.top+";";
@@ -475,7 +525,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes,indexAttributes,callbackAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);
@@ -491,6 +541,7 @@ pug_html = pug_html + "\u003C\u002Fdiv\u003E\u003C\u002Fli\u003E";
     for (var pug_index0 in $$obj) {
       $$l++;
       var chartObj = $$obj[pug_index0];
+indexAttributes = {"data-index": chartObj.index};
 if (chartObj.pause) {
 pauseAttributes = {"data-pause": "true"};
 }
@@ -503,6 +554,12 @@ mutedAttributes = {"data-muted": "true"};
 else {
 mutedAttributes = {};
 }
+if (chartObj.callback) {
+callbackAttributes = {"data-callback": "true"};
+}
+else {
+callbackAttributes = {};
+}
 if (chartObj.top) {
 marginTopList = " margin-top: 0;";
 marginToplistContent = " margin-top: "+chartObj.top+";";
@@ -513,7 +570,7 @@ marginToplistContent = "";
 
 
 }
-pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
+pug_html = pug_html + "\u003Cli" + (pug.attrs(pug.merge([{"class": pug.classes([_style[chartObj.pos]], [true]),"style": pug.escape(pug.style(marginTopList)),"data-delay": pug.escape(chartObj.delay)},pauseAttributes,mutedAttributes,indexAttributes,callbackAttributes]), true)) + "\u003E\u003Cdiv" + (pug.attr("class", pug.classes([_style.listContent], [true]), false, true)+pug.attr("style", pug.style("width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent), true, true)) + "\u003E";
 if (chartObj.custom) {
 if (chartObj.html) {
 pug_html = pug_html + (null == (pug_interp = chartObj.html) ? "" : pug_interp);
@@ -570,7 +627,9 @@ function pug_merge(a, b) {
       a[key] = (Array.isArray(valA) ? valA : [valA]).concat(b[key] || []);
     } else if (key === 'style') {
       var valA = pug_style(a[key]);
+      valA = valA && valA[valA.length - 1] !== ';' ? valA + ';' : valA;
       var valB = pug_style(b[key]);
+      valB = valB && valB[valB.length - 1] !== ';' ? valB + ';' : valB;
       a[key] = valA + valB;
     } else {
       a[key] = b[key];
@@ -649,10 +708,7 @@ function pug_style(val) {
     }
     return out;
   } else {
-    val += '';
-    if (val[val.length - 1] !== ';') 
-      return val + ';';
-    return val;
+    return val + '';
   }
 };
 
@@ -804,43 +860,37 @@ function pug_rethrow(err, filename, lineno, str){
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-// style-loader: Adds some css to the DOM by adding a <style> tag
 
-// load the styles
 var content = __webpack_require__(6);
+
 if(typeof content === 'string') content = [[module.i, content, '']];
-// Prepare cssTransformation
+
 var transform;
+var insertInto;
+
+
 
 var options = {"hmr":true}
+
 options.transform = transform
-// add the styles to the DOM
+options.insertInto = undefined;
+
 var update = __webpack_require__(8)(content, options);
+
 if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss", function() {
-			var newContent = require("!!../node_modules/css-loader/index.js??ref--2-1!../node_modules/sass-loader/lib/loader.js??ref--2-2!./style.scss");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
+
+if(false) {}
 
 /***/ }),
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(7)(undefined);
+exports = module.exports = __webpack_require__(7)(false);
 // imports
 
 
 // module
-exports.push([module.i, "/**\n * variables\n */\n/**\n * utilities\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li:nth-last-of-type(1) {\n  margin-bottom: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n", ""]);
+exports.push([module.i, "/**\r\n * variables\r\n */\n/**\r\n * utilities\r\n */\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper, .src-style__chartList {\n  position: absolute;\n  z-index: 1;\n}\n\n.src-style__chartList .src-style__listContent, .src-style__footer {\n  position: relative;\n  z-index: 1;\n}\n\n.src-style__fullImg, .src-style__container, .src-style__swiperWrapper {\n  left: 0;\n  top: 0;\n  width: 100%;\n  height: 100%;\n}\n\n.src-style__main, .src-style__footer {\n  width: 100%;\n  height: 0;\n}\n\n.src-style__container {\n  display: flex;\n  flex-direction: column;\n  background-color: #ebebeb;\n  overflow: hidden;\n}\n\n.src-style__main {\n  flex: 1;\n  overflow: hidden;\n}\n\n.src-style__swiperSlideActive {\n  visibility: visible;\n  pointer-events: auto;\n}\n\n.src-style__chartList {\n  left: 0;\n  top: 0;\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  list-style: none;\n}\n\n.src-style__chartList > li {\n  display: none;\n  width: 100%;\n  margin: 1.8% 0;\n}\n\n.src-style__chartList > li:nth-of-type(1) {\n  margin-top: 3.6%;\n}\n\n.src-style__chartList > li.src-style__show {\n  display: flex;\n}\n\n.src-style__chartList .src-style__listContent {\n  margin: 0 2.5%;\n}\n\n.src-style__chartList .src-style__center {\n  justify-content: center;\n}\n\n.src-style__chartList .src-style__left {\n  justify-content: flex-start;\n}\n\n.src-style__chartList .src-style__right {\n  justify-content: flex-end;\n}\n\n.src-style__footer {\n  margin-top: 1.8%;\n}\n", ""]);
 
 // exports
 exports.locals = {
@@ -969,14 +1019,29 @@ var isOldIE = memoize(function () {
 	return window && document && document.all && !window.atob;
 });
 
+var getTarget = function (target, parent) {
+  if (parent){
+    return parent.querySelector(target);
+  }
+  return document.querySelector(target);
+};
+
 var getElement = (function (fn) {
 	var memo = {};
 
-	return function(selector) {
-		if (typeof memo[selector] === "undefined") {
-			var styleTarget = fn.call(this, selector);
+	return function(target, parent) {
+                // If passing function in options, then use it for resolve "head" element.
+                // Useful for Shadow Root style i.e
+                // {
+                //   insertInto: function () { return document.querySelector("#foo").shadowRoot }
+                // }
+                if (typeof target === 'function') {
+                        return target();
+                }
+                if (typeof memo[target] === "undefined") {
+			var styleTarget = getTarget.call(this, target, parent);
 			// Special case to return head of iframe instead of iframe itself
-			if (styleTarget instanceof window.HTMLIFrameElement) {
+			if (window.HTMLIFrameElement && styleTarget instanceof window.HTMLIFrameElement) {
 				try {
 					// This will throw an exception if access to iframe is blocked
 					// due to cross-origin restrictions
@@ -985,13 +1050,11 @@ var getElement = (function (fn) {
 					styleTarget = null;
 				}
 			}
-			memo[selector] = styleTarget;
+			memo[target] = styleTarget;
 		}
-		return memo[selector]
+		return memo[target]
 	};
-})(function (target) {
-	return document.querySelector(target)
-});
+})();
 
 var singleton = null;
 var	singletonCounter = 0;
@@ -1010,10 +1073,10 @@ module.exports = function(list, options) {
 
 	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
 	// tags it will allow on a page
-	if (!options.singleton) options.singleton = isOldIE();
+	if (!options.singleton && typeof options.singleton !== "boolean") options.singleton = isOldIE();
 
 	// By default, add <style> tags to the <head> element
-	if (!options.insertInto) options.insertInto = "head";
+        if (!options.insertInto) options.insertInto = "head";
 
 	// By default, add <style> tags to the bottom of the target
 	if (!options.insertAt) options.insertAt = "bottom";
@@ -1117,7 +1180,7 @@ function insertStyleElement (options, style) {
 	} else if (options.insertAt === "bottom") {
 		target.appendChild(style);
 	} else if (typeof options.insertAt === "object" && options.insertAt.before) {
-		var nextSibling = getElement(options.insertInto + " " + options.insertAt.before);
+		var nextSibling = getElement(options.insertAt.before, target);
 		target.insertBefore(style, nextSibling);
 	} else {
 		throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");
@@ -1137,7 +1200,16 @@ function removeStyleElement (style) {
 function createStyleElement (options) {
 	var style = document.createElement("style");
 
-	options.attrs.type = "text/css";
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
+
+	if(options.attrs.nonce === undefined) {
+		var nonce = getNonce();
+		if (nonce) {
+			options.attrs.nonce = nonce;
+		}
+	}
 
 	addAttrs(style, options.attrs);
 	insertStyleElement(options, style);
@@ -1148,7 +1220,9 @@ function createStyleElement (options) {
 function createLinkElement (options) {
 	var link = document.createElement("link");
 
-	options.attrs.type = "text/css";
+	if(options.attrs.type === undefined) {
+		options.attrs.type = "text/css";
+	}
 	options.attrs.rel = "stylesheet";
 
 	addAttrs(link, options.attrs);
@@ -1161,6 +1235,12 @@ function addAttrs (el, attrs) {
 	Object.keys(attrs).forEach(function (key) {
 		el.setAttribute(key, attrs[key]);
 	});
+}
+
+function getNonce() {
+	if (false) {}
+
+	return __webpack_require__.nc;
 }
 
 function addStyle (obj, options) {
@@ -1380,7 +1460,7 @@ module.exports = function (css) {
 			.replace(/^'(.*)'$/, function(o, $1){ return $1; });
 
 		// already a full url? no change
-		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/)/i.test(unquotedOrigUrl)) {
+		if (/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(unquotedOrigUrl)) {
 		  return fullMatch;
 		}
 
@@ -1406,6 +1486,35 @@ module.exports = function (css) {
 	return fixedCss;
 };
 
+
+/***/ }),
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * 判断是否字符串
+ * @param str
+ * @returns {boolean}
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function (str) {
+  return typeof str === 'string' && str.constructor === String;
+});
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * isAudioPlaying
+ * @param audio
+ */
+/* harmony default export */ __webpack_exports__["default"] = (function (audio) {
+  return !audio.paused;
+});
 
 /***/ })
 /******/ ])["default"];

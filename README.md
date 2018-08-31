@@ -4,7 +4,6 @@
 [![build status][travis-image]][travis-url]
 [![David deps][david-image]][david-url]
 [![devDependencies Status][david-dev-image]][david-dev-url]
-[![node version][node-image]][node-url]
 [![npm download][download-image]][download-url]
 [![npm license][license-image]][download-url]
 
@@ -16,8 +15,6 @@
 [david-url]: https://david-dm.org/cycdpo/simulate-chatting
 [david-dev-image]: https://david-dm.org/cycdpo/simulate-chatting/dev-status.svg?style=flat-square
 [david-dev-url]: https://david-dm.org/cycdpo/simulate-chatting?type=dev
-[node-image]: https://img.shields.io/badge/node.js-%3E=_6.0-green.svg?style=flat-square
-[node-url]: http://nodejs.org/download/
 [download-image]: https://img.shields.io/npm/dm/simulate-chatting.svg?style=flat-square
 [download-url]: https://npmjs.org/package/simulate-chatting
 [license-image]: https://img.shields.io/npm/l/simulate-chatting.svg?style=flat-square
@@ -69,6 +66,7 @@ let simulateChat = new SimulateChat(wrapper, options);
       * `html`: [String] Custom html structure of pattern when custom is `true`.
       * `pause`: [Boolean] Whether to pause the running of patterns after this pattern display.
       * `muted`: [Boolean] Whether not to play the sound when this pattern show.
+      * `callback`: [Function] if set, run callback function after this pattern show.
   * `SwiperModule`: [Object] Can use custom Swiper. Note the version to 4+. Default `null`.
 
 
@@ -95,6 +93,12 @@ let simulateChat = new SimulateChat(wrapper, options);
 
   simulateChat.start();
 </script>
+```
+
+## CDN
+To use via a CDN include this in your html:
+```text
+<script src="https://cdn.jsdelivr.net/npm/simulate-chatting@0/build/simulateChatting.min.js"></script>
 ```
 
 

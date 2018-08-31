@@ -13,11 +13,15 @@ div.swiper-container(class=_style.main)
       -
         var pauseAttributes = {};
         var mutedAttributes = {};
+        var indexAttributes = {};
+        var callbackAttributes = {};
         var marginTopList = "";
         var marginToplistContent = "";
 
 
       each chartObj in config.chartList
+        - indexAttributes = {"data-index": chartObj.index};
+          
         if chartObj.pause
           - pauseAttributes = {"data-pause": "true"};
         else
@@ -27,6 +31,11 @@ div.swiper-container(class=_style.main)
           - mutedAttributes = {"data-muted": "true"};
         else
           - mutedAttributes = {};
+
+        if chartObj.callback
+          - callbackAttributes = {"data-callback": "true"};
+        else
+          - callbackAttributes = {};
 
         if chartObj.top
           -
@@ -40,7 +49,7 @@ div.swiper-container(class=_style.main)
 
         li(class=_style[chartObj.pos],
         style=marginTopList,
-        data-delay=chartObj.delay)&attributes(pauseAttributes)&attributes(mutedAttributes)
+        data-delay=chartObj.delay)&attributes(pauseAttributes)&attributes(mutedAttributes)&attributes(indexAttributes)&attributes(callbackAttributes)
           div(class=_style.listContent
           style="width:" + chartObj.w + "; height:" + chartObj.h + ";" + marginToplistContent)
             //- custom

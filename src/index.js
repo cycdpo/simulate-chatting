@@ -4,6 +4,9 @@ import containerTemplate from './template/container.pug'
 // style
 import _style from './style.scss';
 
+import isString from 'awesome-js-funcs/judgeBasic/isString';
+import isAudioPlaying from 'awesome-js-funcs/media/isAudioPlaying';
+
 export default class SimulateChat {
   /**
    * @param context
@@ -43,6 +46,7 @@ export default class SimulateChat {
       done: false,
       busy: false,
       soundUnlock: false,
+      soundMuted: true,
     };
 
     // footer Input
@@ -143,6 +147,7 @@ export default class SimulateChat {
           let
             needPause = Boolean(this.state.next.dataset.pause)
             , needSound = !Boolean(this.state.next.dataset.muted)
+            , hasCallback = Boolean(this.state.next.dataset.callback)
           ;
 
           if (needSound) {
@@ -151,6 +156,11 @@ export default class SimulateChat {
           this.state.next.classList.add(_style.show);
           this.swiper.updateSlides();
           this._scrollToBottom();
+
+          // run callback
+          if (hasCallback) {
+            this.config.chartList[this.state.next.dataset.index].callback();
+          }
 
           // set next
           this.state.next = this.state.next.nextElementSibling;
@@ -278,6 +288,9 @@ export default class SimulateChat {
       return;
     }
 
+    if (this.state.soundMuted) {
+      this.config.sound.muted = false;
+    }
     this.config.sound.play();
   };
 
@@ -289,12 +302,15 @@ export default class SimulateChat {
     if (this.state.soundUnlock) {
       return;
     }
-
+    this.config.sound.muted = true;
     this.config.sound.play();
     setTimeout(() => {
-      if (_isAudiodPlaying(this.config.sound)) {
+      if (isAudioPlaying(this.config.sound)) {
         this.state.soundUnlock = true;
         this.config.sound.pause();
+        if (!this.state.soundMuted) {
+          this.config.sound.muted = false;
+        }
         console.log('sound unlocked');
       }
     }, 0);
@@ -303,11 +319,7 @@ export default class SimulateChat {
 
 // private
 let
-  isString = (str) => {
-    return (typeof str === 'string') && str.constructor === String;
-  }
-
-  , _formattingCustomValue = (inputValue) => {
+  _formattingCustomValue = (inputValue) => {
     if (isString(inputValue)) {
       return inputValue;
     } else {
@@ -316,7 +328,9 @@ let
   }
 
   , _chartListHandle = (chartList) => {
-    return chartList.map(obj => {
+    return chartList.map((obj, index) => {
+      obj.index = index;
+
       if (obj.w) {
         obj.w = _formattingCustomValue(obj.w);
       }
@@ -332,6 +346,4 @@ let
       return obj;
     });
   }
-
-  , _isAudiodPlaying = audio => !audio.paused
 ;
