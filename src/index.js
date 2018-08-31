@@ -4,6 +4,9 @@ import containerTemplate from './template/container.pug'
 // style
 import _style from './style.scss';
 
+import isString from 'awesome-js-funcs/judgeBasic/isString';
+import isAudioPlaying from 'awesome-js-funcs/media/isAudioPlaying';
+
 export default class SimulateChat {
   /**
    * @param context
@@ -302,7 +305,7 @@ export default class SimulateChat {
     this.config.sound.muted = true;
     this.config.sound.play();
     setTimeout(() => {
-      if (_isAudiodPlaying(this.config.sound)) {
+      if (isAudioPlaying(this.config.sound)) {
         this.state.soundUnlock = true;
         this.config.sound.pause();
         if (!this.state.soundMuted) {
@@ -316,11 +319,7 @@ export default class SimulateChat {
 
 // private
 let
-  isString = (str) => {
-    return (typeof str === 'string') && str.constructor === String;
-  }
-
-  , _formattingCustomValue = (inputValue) => {
+  _formattingCustomValue = (inputValue) => {
     if (isString(inputValue)) {
       return inputValue;
     } else {
@@ -347,6 +346,4 @@ let
       return obj;
     });
   }
-
-  , _isAudiodPlaying = audio => !audio.paused
 ;

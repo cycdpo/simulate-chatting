@@ -10,8 +10,8 @@ module.exports = {
         'safari >= 8',
         'opera >= 23',
         'ios >= 8',
-        'android >= 4.4',
-      ],
-    },
-  },
+        'android >= 4.4'
+      ]
+    }
+  }
 };

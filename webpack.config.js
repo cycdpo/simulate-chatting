@@ -1,5 +1,7 @@
 var
   path = require('path')
+  , webpack = require('webpack')
+  , packageJson = require('./package.json')
 
   // webpack plugin
   , BrowserSyncPlugin = require('browser-sync-webpack-plugin')
@@ -15,42 +17,40 @@ var
   , cssIdentifier = IS_PRODUCTION ? '[hash:base64:10]' : '[path][name]__[local]'
 ;
 
-let
-  imageWebpackLoaderConfig = {
-    loader: 'image-webpack-loader',
-    options: {
-      query: {
-        mozjpeg: {
-          progressive: true,
-          quality: 65,
+var imageWebpackLoaderConfig = {
+  loader: 'image-webpack-loader',
+  options: {
+    mozjpeg: {
+      progressive: true,
+      quality: 65,
+    },
+    gifsicle: {
+      interlaced: false,
+    },
+    optipng: {
+      optimizationLevel: 6,
+    },
+    pngquant: {
+      quality: '65-90',
+      speed: 4,
+    },
+    svgo: {
+      plugins: [
+        {
+          removeViewBox: false
         },
-        gifsicle: {
-          interlaced: false,
-        },
-        optipng: {
-          optimizationLevel: 6,
-        },
-        pngquant: {
-          quality: '65-90',
-          speed: 4,
-        },
-        svgo: {
-          plugins: [
-            {
-              removeViewBox: false
-            },
-            {
-              removeEmptyAttrs: false
-            }
-          ]
-        },
-      },
-    }
+        {
+          removeEmptyAttrs: false
+        }
+      ]
+    },
   }
-;
+};
 
 
 var config = {
+  mode: 'none',
+
   entry: [
     path.resolve('src', 'index.js')
   ],
@@ -149,11 +149,19 @@ var config = {
     ]
   },
 
-  plugins: []
+  plugins: [
+    new webpack.BannerPlugin({
+      banner: packageJson.name + ' v' + packageJson.version +
+      '\nHomepage: ' + packageJson.homepage +
+      '\nReleased under the ' + packageJson.license + ' License.'
+    })
+  ]
 };
 
 // dev mode
 if (IS_DEVELOPMENT) {
+  config.mode = 'development';
+
   // devtool
   config.devtool = 'source-map';
 
@@ -187,33 +195,44 @@ if (IS_DEVELOPMENT) {
 
 // production mode
 if (IS_PRODUCTION) {
+  config.mode = 'production';
+  config.bail = true;
+
   config.plugins.push(
+    new webpack.HashedModuleIdsPlugin(),
+
     new CleanWebpackPlugin(['build'], {
       root: path.resolve('./'),
       verbose: true,
       dry: false
-    }),
-
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        ie8: false,
-        ecma: 5,
-        output: {
-          comments: false,
-          beautify: false
-        },
-        compress: {
-          warnings: false,
-          drop_debugger: true,
-          drop_console: true,
-          collapse_vars: true,
-          reduce_vars: true
-        },
-        warnings: false,
-        sourceMap: true
-      }
     })
   );
+
+  config.optimization = {
+    minimizer: [
+      // Uglify Js
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          ie8: false,
+          safari10: true,
+          ecma: 5,
+          output: {
+            comments: /^!/,
+            beautify: false
+          },
+          compress: {
+            warnings: false,
+            drop_debugger: true,
+            drop_console: true,
+            collapse_vars: true,
+            reduce_vars: true
+          },
+          warnings: false,
+          sourceMap: true
+        }
+      }),
+    ]
+  };
 }
 
 module.exports = config;
