@@ -4,8 +4,8 @@ import containerTemplate from './template/container.pug'
 // style
 import _style from './style.scss';
 
-import isString from 'awesome-js-funcs/judgeBasic/isString';
-import isAudioPlaying from 'awesome-js-funcs/media/isAudioPlaying';
+import isString from '@cycjimmy/awesome-js-funcs/judgeBasic/isString';
+import isAudioPlaying from '@cycjimmy/awesome-js-funcs/media/isAudioPlaying';
 
 export default class SimulateChat {
   /**
@@ -318,7 +318,7 @@ export default class SimulateChat {
 };
 
 // private
-let
+const
   _formattingCustomValue = (inputValue) => {
     if (isString(inputValue)) {
       return inputValue;
