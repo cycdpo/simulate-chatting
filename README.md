@@ -1,26 +1,25 @@
 # Simulate Chatting
 
 [![NPM version][npm-image]][npm-url]
-[![build status][travis-image]][travis-url]
 [![David deps][david-image]][david-url]
 [![devDependencies Status][david-dev-image]][david-dev-url]
-[![npm download][download-image]][download-url]
 [![npm license][license-image]][download-url]
 
 [npm-image]: https://img.shields.io/npm/v/simulate-chatting.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/simulate-chatting
-[travis-image]: https://img.shields.io/travis/cycdpo/simulate-chatting.svg?style=flat-square
-[travis-url]: https://travis-ci.org/cycdpo/simulate-chatting
 [david-image]: https://img.shields.io/david/cycdpo/simulate-chatting.svg?style=flat-square
 [david-url]: https://david-dm.org/cycdpo/simulate-chatting
 [david-dev-image]: https://david-dm.org/cycdpo/simulate-chatting/dev-status.svg?style=flat-square
 [david-dev-url]: https://david-dm.org/cycdpo/simulate-chatting?type=dev
-[download-image]: https://img.shields.io/npm/dm/simulate-chatting.svg?style=flat-square
 [download-url]: https://npmjs.org/package/simulate-chatting
 [license-image]: https://img.shields.io/npm/l/simulate-chatting.svg?style=flat-square
 
 ([Releases](https://github.com/cycdpo/simulate-chatting/releases) | [Demo](https://cycdpo.github.io/simulate-chatting/))
 
+[new-url]: https://github.com/cycjimmy/simulate-chatting
+
+**This package has been migrated to [@cycjimmy/simulate-chatting][new-url] for scoped NPM package. 
+Please switch to [@cycjimmy/simulate-chatting][new-url] to stay up to date.**
 
 ## Install
 ```shell
